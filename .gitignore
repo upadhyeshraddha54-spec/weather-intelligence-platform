@@ -1,15 +1,26 @@
-# Virtual Environment
+# Virtual environment
 .venv/
+.venv-new/
 
 # Python cache
 __pycache__/
 *.pyc
 
-# macOS
-.DS_Store
+# Environment variables
+.env
 
 # VS Code
 .vscode/
 
-# Environment Variables
-.env
+# macOS
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Hugging Face cache
+.cache/
+
+# FAISS index (optional if regenerated)
+weather_vector_db/index.faiss
+weather_vector_db/index.pkl

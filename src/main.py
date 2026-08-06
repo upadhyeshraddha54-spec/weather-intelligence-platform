@@ -2,7 +2,9 @@ from src.data.config import WeatherConfig
 from src.data.collector import WeatherCollector
 from src.data.validator import WeatherValidator
 from src.data.storage import WeatherStorage
-
+from src.data.analysis import WeatherAnalysis
+from src.data.preprocessing import WeatherPreprocessor
+from src.data.model import WeatherModel
 
 def main():
     config = WeatherConfig()
@@ -17,9 +19,14 @@ def main():
 
     # Save weather data
     WeatherStorage.save(weather)
-    print(" Weather data saved successfully!")
+    print("Weather data saved successfully!")
 
-    # Display weather information
+    # Analyze the dataset
+    WeatherAnalysis.analyze()
+    WeatherPreprocessor.preprocess()
+    WeatherModel.train()
+
+    # Display current weather
     current = weather["current"]
 
     print(f"Temperature : {current['temperature_2m']} °C")

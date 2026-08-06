@@ -42,7 +42,7 @@ class WeatherCollector:
         response = requests.get(
             self.BASE_URL,
             params=params,
-            timeout=10,
+            timeout=30,
         )
 
         # Raise an exception if the request was not successful
