@@ -112,7 +112,7 @@ After gathering enough information, provide a concise professional decision-supp
     for _ in range(5):
 
         response = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+            model="qwen/qwen3.8-27b",
             messages=messages,
             tools=TOOLS,
             tool_choice="auto",

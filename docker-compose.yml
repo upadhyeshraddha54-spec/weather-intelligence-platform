@@ -1,0 +1,58 @@
+version: "3.9"
+
+# ============================================================
+# Weather Intelligence Platform — Docker Compose
+# ============================================================
+# Start:   docker compose up --build
+# Stop:    docker compose down
+# ============================================================
+
+services:
+
+  # --------------------------------------------------------
+  # FastAPI backend
+  # --------------------------------------------------------
+  api:
+    build: .
+    image: weather-intel-api
+    container_name: weather_intel_api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - LLM_PROVIDER=groq
+      - TRANSFORMERS_OFFLINE=1
+      - HF_DATASETS_OFFLINE=1
+    volumes:
+      # Persist ML model, DL model, CV model, and vector DB
+      - ./best_weather_model.pkl:/app/best_weather_model.pkl:ro
+      - ./weather_vector_db:/app/weather_vector_db:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # --------------------------------------------------------
+  # Streamlit frontend
+  # --------------------------------------------------------
+  streamlit:
+    build: .
+    image: weather-intel-streamlit
+    container_name: weather_intel_streamlit
+    command: streamlit run frontend/app.py --server.port=8501 --server.address=0.0.0.0
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      - TRANSFORMERS_OFFLINE=1
+      - HF_DATASETS_OFFLINE=1
+    volumes:
+      - ./best_weather_model.pkl:/app/best_weather_model.pkl:ro
+      - ./weather_vector_db:/app/weather_vector_db:ro
+    depends_on:
+      - api
+    restart: unless-stopped

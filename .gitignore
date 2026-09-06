@@ -1,26 +1,68 @@
-# Virtual environment
+# ============================================================
+# Weather Intelligence Platform — .gitignore
+# ============================================================
+
+# Environment & secrets
+.env
+*.env
+.env.*
+!.env.example
+
+# Virtual environments
 .venv/
 .venv-new/
+.venv-1/
+venv/
+env/
 
-# Python cache
+# Python
 __pycache__/
-*.pyc
-
-# Environment variables
-.env
-
-# VS Code
-.vscode/
-
-# macOS
-.DS_Store
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
 
 # Jupyter
 .ipynb_checkpoints/
+*.ipynb
 
-# Hugging Face cache
+# Model weights (large binary files — document separately)
+best_dl_model.pt
+best_cv_model.pt
+
+# HuggingFace / transformers cache
 .cache/
+~/.cache/huggingface/
 
-# FAISS index (optional if regenerated)
+# FAISS vector DB
 weather_vector_db/index.faiss
 weather_vector_db/index.pkl
+
+# Datasets
+weather_data.csv
+processed_weather_data.csv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# pytest
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# Docker
+.dockerignore
+*.pyc

@@ -1,16 +1,16 @@
 from typing import TypedDict, List, Dict, Any
-
 class WeatherState(TypedDict):
-
     city: str
     user_query: str
 
-    selected_agents: List[str]
+    selected_agents: list
 
-    weather: Dict[str, Any]
-    aqi: Dict[str, Any]
-    risk: List[str]
+    weather: dict
+    aqi: dict
+    forecast: str
+    satellite: dict    
+    risk: list
     rag: str
-    forecast: Dict[str, Any]
     bulletin: str
+
     decision_logs: list

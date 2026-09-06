@@ -1,3 +1,5 @@
+
+import time
 from langgraph.graph import StateGraph, END
 
 from src.graph.state import WeatherState
@@ -12,7 +14,6 @@ from src.graph.nodes import (
     rag_node,
     bulletin_node,
 )
-
 
 # ============================================================
 # ROUTING FUNCTIONS
@@ -322,37 +323,40 @@ if __name__ == "__main__":
     print("===================================")
 
     city = input("\nEnter City: ")
-
-    question = input(
-        "Ask your question: "
-    )
+    question = input("Ask your question: ")
 
     # --------------------------------------------------------
     # Initial State
     # --------------------------------------------------------
 
     state = {
-    "city": city,
-    "user_query": question,
+        "city": city,
+        "user_query": question,
 
-    "selected_agents": [],
+        "selected_agents": [],
 
-    "weather": None,
-    "aqi": None,
-    "forecast": None,
-    "satellite": None,
-    "risk": [],
-    "rag": "",
-    "bulletin": "",
+        "weather": None,
+        "aqi": None,
+        "forecast": None,
+        "satellite": None,
+        "risk": [],
+        "rag": "",
+        "bulletin": "",
 
-    "decision_logs": []
-}
+        "decision_logs": []
+    }
 
     # --------------------------------------------------------
     # Execute LangGraph
     # --------------------------------------------------------
 
+    start = time.time()
+
     result = weather_graph.invoke(state)
+
+    print("\n===================================")
+    print(f"⏱ Total Workflow Time: {time.time() - start:.2f} sec")
+    print("===================================")
 
     # --------------------------------------------------------
     # Selected Agents
@@ -362,10 +366,7 @@ if __name__ == "__main__":
     print("🧠 SELECTED AGENTS")
     print("===================================")
 
-    for agent in result.get(
-        "selected_agents",
-        []
-    ):
+    for agent in result.get("selected_agents", []):
         print(f"✓ {agent}")
 
     # --------------------------------------------------------
@@ -376,15 +377,15 @@ if __name__ == "__main__":
     print("📋 FINAL BULLETIN")
     print("===================================\n")
 
-    print(
-        result.get(
-            "bulletin",
-            "No bulletin generated."
-        )
-    )
-print("\n===================================")
-print("🧾 DECISION LOG")
-print("===================================")
+    print(result.get("bulletin", "No bulletin generated."))
 
-for log in result["decision_logs"]:
-    print(log)
+    # --------------------------------------------------------
+    # Decision Logs
+    # --------------------------------------------------------
+
+    print("\n===================================")
+    print("🧾 DECISION LOG")
+    print("===================================")
+
+    for log in result.get("decision_logs", []):
+        print(log)

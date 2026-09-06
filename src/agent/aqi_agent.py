@@ -48,7 +48,7 @@ Base your assessment only on the supplied observations.
 """
 
     response = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
+        model="qwen/qwen3.8-27b",
         messages=[
             {
                 "role": "system",
